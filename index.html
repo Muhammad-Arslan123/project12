@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket</title>
+</head>
+<style>
+    body {
+        margin: o;
+        padding: 0;
+        /* text-align: center; */
+
+    }
+
+    .btn {
+        width: 100px;
+        height: 100px;
+        border: none;
+        cursor: pointer;
+        background-color: chartreuse;
+        border-radius: 35px;
+        margin: 11px;
+    }
+
+    .im-crict {
+        width: 100px;
+        height: 100px;
+    }
+
+    .st {
+        width: 100px;
+        height: 50px;
+        border-radius: 30px;
+    }
+   .background-container {
+      background-image: url('bac.jpg');
+      background-size: cover;
+      background-position: center;
+      height: 100vh;
+      width: 100%;
+      position: relative;
+      text-align: center;
+      color: white;
+    }
+    
+
+</style>
+
+<body>
+    <div class="background-container">
+    
+        <h1>Cricket match</h1>
+       <button class="btn" onclick="
+        Userselect = 'User choice Bat'
+       compchoise = defcompcho();
+       result = getresult('Bat', compchoise);
+     cmprslt(Userselect,result, compchoise);
+     "><img src="bat.png" alt="bat" class="im-crict"></button>
+        <button class="btn" onclick="
+     Userselect = 'User choice Ball'
+     compchoise = defcompcho();
+     result = getresult('Ball', compchoise);
+     cmprslt(Userselect,result, compchoise);
+     "><img src="ball.png" alt="ball" class="im-crict"></button>
+        <button class="btn" onclick="
+     Userselect = 'User choice stump'
+     compchoise = defcompcho();
+     result = getresult('stump', compchoise);
+     cmprslt(Userselect,result, compchoise);
+     "><img src="stump.webp" alt="stump" class="im-crict"></button>
+     <div class="score-section">
+        <h3 id="usrmv"></h3>
+        <h3 id="cmpmv"></h3>
+        <h3 id="result"></h3>
+        <h3 id="score"></h3>
+        
+
+        <button class="st" onclick="localStorage.clear()
+      resetscr();
+     cmprslt()">reset</button>
+<h5>Credit By SUBHANI</h5>
+     </div>
+     </div>
+
+
+
+
+    <script>
+        let scorestr = localStorage.getItem('score')
+        let score;
+        resetscr(scorestr);
+        function resetscr(scorestr) {
+            score = scorestr ? JSON.parse(scorestr) : {
+                win: 0,
+                lose: 0,
+                Draw: 0,
+            };
+
+            score.diplayscore = function () {
+                return `Win: ${score.win}  Lose: ${score.lose}  Draw: ${score.Draw}`
+            }
+
+        }
+        function defcompcho() {
+            let randomnmb = Math.random() * 3
+            if (randomnmb > 0 && randomnmb <= 1) {
+                return 'Bat';;
+            } else if (randomnmb > 1 && randomnmb <= 2) {
+                return 'Ball';
+            } else {
+                return 'stump'
+            }
+        }
+        function getresult(usersl, compsl,) {
+            if (usersl === 'Bat') {
+                if (compsl === 'Ball') {
+                    score.win++;
+                    return 'user won.'
+                } else if (compsl === 'Bat') {
+                    score.Draw++;
+                    return 'Draw match'
+                } else if (compsl === 'stump') {
+                    score.lose++;
+                    return 'Computer won.'
+                }
+            } else if (usersl === 'Ball') {
+                if (compsl === 'Ball') {
+                    score.Draw++;
+                    return 'Draw match'
+                } else if (compsl === 'Bat') {
+                    score.lose++;
+                    return 'Computer won'
+                } else if (compsl === 'stump') {
+                    score.win++;
+                    return 'user won.'
+                }
+
+            } else if (usersl === 'stump') {
+                if (compsl === 'Ball') {
+                    score.lose++;
+                    return 'Computer won'
+                } else if (compsl === 'Bat') {
+                    score.win++;
+                    return 'user won'
+                } else if (compsl === 'stump') {
+                    score.Draw++;
+                    return 'Draw match.'
+                }
+            }
+
+        }
+        function cmprslt(Userselect, result, compchoise) {
+            localStorage.setItem('score', JSON.stringify(score));
+            document.querySelector('#usrmv').innerText = Userselect ? `${Userselect}` : '';
+            document.querySelector('#cmpmv').innerText = compchoise ? ` Computer Choise ${compchoise}` : '';
+            document.querySelector('#result').innerText = result ? `${result}` : '';
+            document.querySelector('#score').innerText = ` ${score.diplayscore()}`;
+        }
+
+    </script>
+</body>
+
+
+</html>
